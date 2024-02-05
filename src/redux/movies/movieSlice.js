@@ -43,25 +43,27 @@ export const fetchAsyncMovies = createAsyncThunk(
        state.selectMovieOrShow = {};
      },
    },
-   extraReducers: {
-     [fetchAsyncMovies.pending]: () => {
-       console.log("Pending");
-     },
-     [fetchAsyncMovies.fulfilled]: (state, { payload }) => {
-       console.log("Fetched Successfully!");
-       return { ...state, movies: payload };
-     },
-     [fetchAsyncMovies.rejected]: () => {
-       console.log("Rejected!");
-     },
-     [fetchAsyncShows.fulfilled]: (state, { payload }) => {
-       console.log("Fetched Successfully!");
-       return { ...state, shows: payload };
-     },
-     [fetchAsyncMovieOrShowDetail.fulfilled]: (state, { payload }) => {
-       console.log("Fetched Successfully!");
-       return { ...state, selectMovieOrShow: payload };
-     },
+   extraReducers: (builder) => {
+    builder
+      .addCase(fetchAsyncMovies.pending, (state) => {
+        console.log("pending...");
+        state.status = "pending";
+      })
+      .addCase(fetchAsyncMovies.fulfilled, (state, {payload}) => {
+        console.log("Fetched successfully!");
+        return { ...state, movies: payload };
+      })
+      .addCase(fetchAsyncMovies.rejected, ()=>{
+        console.log("Rejected!");
+      })
+      .addCase(fetchAsyncShows.fulfilled, (state, { payload }) => {
+        console.log("Fetched successfully!");
+        return { ...state, shows: payload };
+      })
+      .addCase(fetchAsyncMovieOrShowDetail.fulfilled, (state, { payload }) =>{
+        console.log("Fetched Successfully!");
+        return { ...state, selectMovieOrShow: payload };
+      })
    },
  });
  
